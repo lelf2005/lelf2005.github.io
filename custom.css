@@ -1,0 +1,78 @@
+.sidebar-menu {
+	background: rgba(225,226,230,.4);
+    backdrop-filter: blur(10px) brightness(98%);
+}
+
+.sidebar-menu .main-menu a {
+	color: #808184;
+	font-size:18px;
+	font-weight: 900;
+}
+
+.sidebar-menu .main-menu a:hover {
+	color: #1c1d1f;
+}
+
+.sidebar-menu .main-menu li.active>a {
+	color: #1c1d1f;
+}
+
+.sidebar-menu .main-menu a {
+	border-bottom: 0px;
+}
+
+.sidebar-menu .logo-env {
+	border-bottom: 0px;
+}
+
+.nameImage {
+    /*box-shadow: 0px 0px 0px 1px #ddd inset;*/
+    text-shadow: 0 1px #aaa;
+    box-shadow: 0px 0px 1px 0.8px #ddd inset;
+    cursor: pointer;
+    flex: 1 1 auto;
+    width: 47px;
+    height: 43px;
+    line-height: 43px;
+    border-radius: 50%;
+    display: inline-block;
+    font-weight: 600;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+    box-sizing: border-box;
+    font-family: Microsoft Yahei;
+}
+
+
+.sidebar-menu.collapsed .main-menu>li li.active, .sidebar-menu.collapsed .main-menu>li.active {
+    background-color: rgb(210 211 212);
+}
+
+.sidebar-menu.collapsed .main-menu>li>ul{
+	background: rgba(225,226,230);
+}
+
+.xe-comment {
+    margin-left: 60px;
+}
+
+.navbar.horizontal-menu {
+    background: #fff;
+}
+
+.milky {
+    display: block;
+    font-size: 48px;
+    color: #f1ebe5;
+    text-shadow: 0 8px 9px #c4b59d, 0px -2px 1px #fff;
+    font-weight: bold;
+    letter-spacing: -4px;
+    text-align: center;
+    background: linear-gradient(to bottom, #ece4d9 0%,#e9dfd1 100%);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 20px;
+    width: 100%;
+}
