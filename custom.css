@@ -76,3 +76,26 @@
     border-radius: 20px;
     width: 100%;
 }
+
+.list{position:relative;}
+.list span img{ 
+border-width: 0;
+padding: 2px; 
+width: 160px;
+height:160px
+}
+.list span{
+position: absolute;
+padding: 3px;
+border: 1px solid gray;
+visibility: hidden;
+background-color:#FFFFFF;
+    text-align: center;
+}
+.list:hover{
+background-color:transparent;
+}
+.list:hover span{
+visibility: visible;
+top:70px; left:0px;
+}
