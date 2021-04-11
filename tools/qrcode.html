@@ -1,0 +1,313 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="Keywords" content="在线生成二维码,二维码生成器"/>
+	  <link rel="shortcut icon" href="/favicon.png">
+	<title>在线二维码生成器</title>
+  <script src="/js/jquery-1.11.1.min.js"></script>
+  <script src="/js/jquery-qrcode.min.js"></script> 
+  	<style>
+		.black_overlay{display: none;position: absolute;top: 0%;left: 0%;width: 100%;height: 100%;background-color: black;z-index:1001;-moz-opacity: 0.8;opacity:.80;filter: alpha(opacity=70);}
+		.white_content {display: none;position: absolute;top:10%;right:0;left:0;margin:auto;width: 95%;max-width:680px;background-color: white;z-index:1002;border-radius: 10px;}
+		.white_content_small {max-height: 450px;margin-left: 20px; margin-right: 20px;z-index:1003;overflow: auto;}
+		.close_button{font-size: 16px; background-color: #f25b5b;padding: 10px 20px;border-radius: 4px;color: white;cursor: pointer;}
+		.show_button{background-color: #666;padding: 6px 10px;border-radius: 4px;color: #999;cursor: no-drop;}
+		.close_button:hover,.show_button:hover{background-color: #666;}
+		html,body{ height: 100%;font-size:14px;font-family:"microsoft yahei",arial;background-color:#F2F2F2;}
+      	body{padding:0px; margin:0px ;}
+       	#container{display: flex; flex-direction: column;height: 100%;}
+		uwl{flex: 1 0 auto;}
+		ul{margin:0;padding:0; }
+		li{list-style:none;}
+		input{border:0 none;}
+		input:focus{outline:none;}
+		pre{font-size:14px;line-height:20px;}
+		.tc{text-align:center;}
+		.dn{display: none;background-color: #e95353;padding: 10px;color: white;border-radius: 5px;text-decoration: none;font-size: 16px; letter-spacing: 2px;}
+		.dn:hover{background-color: #ff5353;}
+		.dqn{display: none;border-radius: 5px;}
+		.title{letter-spacing:3px;text-shadow:0 0 2px #999; }
+		#qrcode{width: 300px;margin: 0 auto;}
+		#qrcode li{padding:10px 0;}
+		#qrcode li.lll{width: 150px;float: left;}
+		#qrcode li > span{display: block;text-align: left;margin-bottom: 3px;}
+		#qrcodes{margin: 0 auto;background-color: #fff;}
+		.ipt{padding:8px 10px;width:300px;font-size:14px;border:1px solid #ccc;border-radius: 4px;}
+		.ipt:focus{border:1px solid #0074A2;}
+		.ipt:hover{border:1px solid #0074A2;}
+		.ipt[readonly]{cursor: pointer;}
+		.ipl{padding:8px 10px;width:120px;font-size:14px;border:1px solid #ccc;border-radius: 5px;}
+		.ipl:focus{border:1px solid #0074A2;}
+		.ipl:hover{border:1px solid #0074A2;}
+		#submit{width:300px;padding:10px 0;background-color:#0074A2;color:#fff;font-size:16px;border-radius:4px;cursor:pointer;letter-spacing:2px;}
+		#submit:hover{background-color:#0074e5;}
+		#toast{width:300px;position:fixed;top:2%;left:50%;margin-left: -150px;z-index:999999;background-color:rgba(0,0,0,.7);border-radius:5px;color:#fff;padding:10px 0;text-align:center;-webkit-animation: zoomOut .4s ease both;animation: zoomOut .4s ease both;}
+		@-webkit-keyframes zoomOut { 0% { opacity: 0; -webkit-transform: scale(.6); } 100% { opacity: 1; -webkit-transform: scale(1); } }
+		@keyframes zoomOut { 0% { opacity: 0; transform: scale(.6); } 100% { opacity: 1; transform: scale(1); } }
+     	.footer{background: #333; flex: 0 0 auto;padding: 0px 30px; margin-top: 20px;font-size: 13px;}
+	</style>
+</head>
+<body>
+   <div id="container">
+
+<h1 class="title tc">在线生成二维码</h1>
+<!--参数表单-->
+<uwl>
+<ul id="qrcode" class="tc">
+	<li>
+		<span>二维码内容（支持中文） <font color="red">*</font></span>
+		<input type="text" value="" placeholder="请输入二维码内容，文本／链接" class="ipt" id="content" required />
+	</li>
+	<li class="lll">
+		<span>尺寸</span>
+		<input type="text" value="300" placeholder="二维码尺寸(选填)" onKeyUp="value=value.replace(/[^\d]/g,'')" maxlength="3" class="ipl" id="size" /> px
+	</li>
+	<li class="lll">
+		<span>白框尺寸</span>
+		<input type="text" value="20" placeholder="二维码白色边框尺寸(选填)" onKeyUp="value=value.replace(/[^\d]/g,'')" maxlength="2" class="ipl" id="border_size" /> px
+	</li>
+  	<p style="color: #bb7800;font-size: 10px;">注：尺寸单位为像素</p>
+	<li>
+		<span>二维码颜色</span>
+		<input type="text" placeholder="选择二维码颜色(选填)"  class="ipt jscolor {closable:true,closeText:'关闭',onFineChange:'updateColor(this)'}" maxlength="6" readonly disabled value="000000" id="color">
+	</li>
+	<li>
+		<span>自定义文字</span>
+		<input type="text" value="" placeholder="输入文字，最多8个字符(选填)" maxlength="8" class="ipt" id="copyright" />
+	</li>
+	<li>
+		<input type="button" value="生成二维码" id="submit"/>
+	</li>
+	<li>
+		<a href="javascript:;" class="dn" id="download" onclick="qr.download('#qrcodes')">下载二维码</a>
+	</li>
+</ul>
+<canvas id="qrcodes" class="dqn" width="300" height="300">您的浏览器不支持canvas标签。</canvas>
+    </uwl>
+
+
+
+     </div>
+  <script src="/js/jscolor.js"></script>
+ <script>
+	var getID = function(el) {
+		return document.getElementById(el);
+	};
+
+	var $qrcodes = getID('qrcodes'), 
+		$download = getID('download'), 
+		$color = getID('color'),
+		defaultQr = 'data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==', 
+		toast_timer = 0,
+		qr = {};
+ 
+	function updateColor(picker) {
+      console.log("得到rgb值");
+		qr.color = Math.round(picker.rgb[0])+','+Math.round(picker.rgb[1])+','+Math.round(picker.rgb[2]);
+	}
+
+	var cacheJS = {
+		errorTxt: '您的Web浏览器不支持本地存储设置。在Safari中，最常见的原因是使用“无痕浏览模式”。有些设置可能无法保存，某些功能可能无法正常工作。',	
+
+		setStorage: function (key, val, type) {
+			type = type ? type : window.sessionStorage;
+			if(this.checkSupport()) {
+				type[key] = escape(val); 
+			} else {
+				alert(this.errorTxt);
+			}
+		},
+
+		getStorage: function (key, type) {
+			type = type ? type : window.sessionStorage;
+			if(this.checkSupport()) {
+				return unescape(type[key]);
+			} else {
+				alert(this.errorTxt);
+			}
+		},
+
+		delStorage: function (key, type) {
+			type = type ? type : window.sessionStorage;
+			if(this.checkSupport()) {
+				type[key] = '';
+				delete type[key];
+			} else {
+				alert(this.errorTxt);
+			}
+		},
+
+		checkSupport: function () {
+			var testKey = 'test', storage = window.sessionStorage;
+			try {
+				storage.setItem(testKey, '1');
+				storage.removeItem(testKey);
+				return true;
+			} 
+			catch (error) {
+				return false;
+			}
+		}
+	};
+
+	qr.init = function() {
+		var $this = this,
+			$content = getID('content'),
+			$border_size = getID('border_size'),
+			$size = getID('size'),
+			$copyright = getID('copyright'),
+			$btn = getID('submit');
+
+		$btn.onclick = function() {
+			
+			$this.reset(); 
+			var protocol = 'http://',
+				protocol_https = 'https://',
+				con = $content.value, 
+				str = con.substr(0,7).toLowerCase(),
+				str_https = con.substr(0,8).toLowerCase(),
+				size = $size && $size.value || 300, 
+				border_size = $border_size && $border_size.value || 20, 
+				copyright = $copyright && $copyright.value || '', 
+				color = $color && $color.value || '000000'; 
+
+          
+			if(con == '' || con == protocol || con == protocol_https) {
+				$this.showToast('请输入二维码内容～');
+				$content.focus();
+				return;
+			} 
+  
+			 
+			cacheJS.setStorage('qrcontent', con);
+			cacheJS.setStorage('qrcopyright', copyright);
+			cacheJS.setStorage('qrcolor', color);
+			cacheJS.setStorage('qrcolorrgb', qr.color);
+			cacheJS.setStorage('qrbordersize', border_size);
+			cacheJS.setStorage('qrsize', size);
+			 $this.draw(size, border_size ,con ,color,copyright);
+		}
+
+		if(cacheJS.getStorage('qrcopyright') !== 'undefined') {
+			$copyright.value = cacheJS.getStorage('qrcopyright');	
+		}
+		if(cacheJS.getStorage('qrcolor') !== 'undefined') {
+			$color.value = cacheJS.getStorage('qrcolor');
+			$color.style.backgroundColor = '#' + $color.value;
+		}
+		if(cacheJS.getStorage('qrcolorrgb') !== 'undefined') {
+			qr.color = cacheJS.getStorage('qrcolorrgb');	
+		}
+		if(cacheJS.getStorage('qrcontent') !== 'undefined') {
+			$content.value = cacheJS.getStorage('qrcontent');	
+		}
+		if(cacheJS.getStorage('qrbordersize') !== 'undefined') {
+			$border_size.value = cacheJS.getStorage('qrbordersize');	
+		}
+		if(cacheJS.getStorage('qrsize') !== 'undefined') {
+			$size.value = cacheJS.getStorage('qrsize');	
+		}
+		 
+	}
+	qr.showToast = function(msg, t) {
+		var alert = getID("toast");
+	    if(alert === null){
+	        alert =  document.createElement("div");
+	        alert.id = 'toast';
+	        alert.innerText = msg;
+	    } else {
+	        alert.style.opacity = .9;
+	    }
+	    document.body.appendChild(alert);
+	    t = t ? t : 1500;
+	    toast_timer = setTimeout(function() {
+	    	if(alert) {
+	    		document.body.removeChild(alert); 
+	    		clearTimeout(toast_timer);
+	    	}
+	    }, t);
+	}
+
+	qr.reset = function() {
+		$qrcodes.style.display = 'none';
+		$download.style.display = 'none';
+		cacheJS.delStorage('qrcode');
+		cacheJS.delStorage('qrcontent');
+		cacheJS.delStorage('qrcopyright');
+		cacheJS.delStorage('qrbordersize');
+		cacheJS.delStorage('qrcolor');
+		cacheJS.delStorage('qrcolorrgb');
+	}
+
+	qr.draw = function(size, border_size ,con ,color,copyright) {
+     	console.log(color);
+      	$qrcodes.setAttribute("width",size);
+		$qrcodes.setAttribute("height",size);
+		if($qrcodes.getContext) {
+			var ctx = $qrcodes.getContext('2d'),
+				img = new Image(),
+				qrWidth = $qrcodes.width,
+				qrHeight = $qrcodes.height; 
+			ctx.clearRect(0,0,qrWidth,qrHeight); 
+	        img.onload = function() {
+				ctx.drawImage(img, 0, 0, qrWidth, qrHeight);
+			};
+          
+          	$('#qrcodes').qrcode({
+    			size: size, 
+    			ecLevel: "M", 
+         		fill:'#'+color,
+      			background:'#fff',
+            	mode: 2,
+        		label: copyright,
+            	mSize: 0.04,
+      			quiet: border_size,
+    			text: con
+			});
+	        $qrcodes.style.display = 'block';
+	        $download.style.display = 'block';
+        } else {
+			this.toast('该浏览器不支持canvas..');
+		}
+	}
+
+	qr.download = function(el, picType) {
+		
+        var type = picType || 'png'; 
+        var d = document.querySelector(el);
+        var imgdata = d.toDataURL(type);
+        var fixtype = function(type) {
+            type = type.toLocaleLowerCase().replace(/jpg/i,'jpeg');
+            var r = type.match(/png|jpeg|bmp|gif/)[0];
+            return 'image/'+r;
+        };
+        imgdata = imgdata.replace(fixtype(type),'image/octet-stream');
+        var savaFile = function(data,filename) {
+            var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+            save_link.href = data;
+            save_link.download = filename;
+            var event = document.createEvent('MouseEvents');
+            event.initMouseEvent('click',true,false,window,0,0,0,0,0,false,false,false,false,0,null);
+            save_link.dispatchEvent(event);
+        };
+        var filename = 'canvas-qr-'+new Date().getTime()+'.'+type; 
+        savaFile(imgdata, filename);
+	}
+	
+	qr.getUrlPath = function() {
+		
+		var loc = window.location;
+        var portStr = "";
+        if(loc.port != 80) { 
+			portStr = ":" + loc.port;
+		}
+        return loc.protocol + "//" +loc.hostname + portStr + loc.pathname;
+	}
+	window.onload = function() {
+		qr.init();
+	}
+</script> 
+</body>
+</html>
