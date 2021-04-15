@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>VIP视频解析</title>
+  <title>葫芦藤-VIP视频解析</title>
   <link rel="icon" href="/favicon.png">
   <link rel="stylesheet" href="./style.css">
 </head>
@@ -17,11 +17,17 @@
       <form>
         <input type="url" id="media-url" placeholder="请输入视频链接" required autocomplete="off">
         <div class="apis">
-          <input type="radio" id="api1" class="api" name="contact" value="https://jx.jiubojx.com/vip.php?url=" checked>
-          <label for="api1">线路1</label>
+          <div><input type="radio" id="api1" class="api" name="contact" value="https://api.yueliangjx.com/?url=" checked>
+          <label for="api1">线路1</label></div>
   
-          <input type="radio" id="api2" class="api" name="contact" value="https://api.yueliangjx.com/?url=">
-          <label for="api2">线路2</label>
+          <div><input type="radio" id="api2" class="api" name="contact" value="https://jx.jiubojx.com/vip.php?url=">
+          <label for="api2">线路2</label></div>
+
+		  <div><input type="radio" id="api3" class="api" name="contact" value="https://api.sigujx.com/jx/?url=">
+          <label for="api3">线路3</label></div>
+		  
+		  <div><input type="radio" id="api4" class="api" name="contact" value="http://jqaaa.com/jx.php?url=">
+          <label for="api4">线路4</label></div>
         </div>
         <button type="submit" class="play">播放</button>
       </form>

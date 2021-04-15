@@ -126,7 +126,8 @@ body {
 .card-front form .apis {
   width: 100%;
   line-height: 30px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 50% 50%;
   justify-content: space-around;
   align-items: center;
   color: var(--shadow-right-bottom-color);
