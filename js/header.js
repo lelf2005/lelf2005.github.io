@@ -241,12 +241,12 @@ function search() {
 function switchNightMode() {
     var night = document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") || '0';
     if (night == '0') {
-        document.body.classList.add('night');
+        //document.body.classList.add('night');
         document.cookie = "night=1;path=/"
-        console.log(' ');
+        //console.log(' ');
     } else {
         document.body.classList.remove('night');
         document.cookie = "night=0;path=/"
-        console.log(' ');
+        //console.log(' ');
     }
 }
