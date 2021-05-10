@@ -62,8 +62,8 @@ $("a.smooth").click(function (e) {
 (function () {
   if (document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") === '') {
     if (new Date().getHours() > 22 || new Date().getHours() < 6) {
-      document.body.classList.add('night');
-      document.cookie = "night=1;path=/";
+      //document.body.classList.add('night');
+      //document.cookie = "night=1;path=/";
     } else {
       document.body.classList.remove('night');
       document.cookie = "night=0;path=/";
@@ -73,7 +73,7 @@ $("a.smooth").click(function (e) {
     if (night == '0') {
       document.body.classList.remove('night');
     } else if (night == '1') {
-      document.body.classList.add('night');
+      //document.body.classList.add('night');
     }
   }
 })();
