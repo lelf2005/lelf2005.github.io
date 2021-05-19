@@ -1,0 +1,75 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="Keywords" content="二维码解析"/>
+	  <link rel="shortcut icon" href="/favicon.png">
+	<title>葫芦藤-二维码解析</title>
+
+  	<style>
+		
+		
+		html,body{ height: 100%;font-size:14px;font-family:"microsoft yahei",arial;background-color:#F2F2F2;}
+      	body{padding:0px; margin:0px ;}
+       	#container{display: flex; flex-direction: column;height: 100%;}
+		uwl{flex: 1 0 auto;}
+		ul{margin:0;padding:0; }
+		li{list-style:none;}
+		input{border:0 none;}
+		input:focus{outline:none;}
+		.tc{text-align:center;}
+		.title{letter-spacing:3px;text-shadow:0 0 2px #999; }
+		#qrcode{width: 300px;margin: 0 auto;}
+		#qrcode li{padding:10px 0;}
+		#qrcode li.lll{width: 150px;float: left;}
+		#qrcode li > span{display: block;text-align: left;margin-bottom: 3px;}
+		#file{
+				position: absolute;
+				width: 160px;
+				height: 160px;
+				opacity: 0;
+				top: 0;
+				left: 50%;
+				margin-left: -80px;
+				overflow: hidden;
+				z-index: 10;
+			}
+	</style>
+</head>
+<body>
+   <div id="container">
+
+<h1 class="title tc">二维码解析</h1>
+<!--参数表单-->
+<uwl>
+<ul id="qrcode" class="tc">
+	<li>
+		<div class="box">
+				<h3>上传二维码解析</h3>
+				<div style="position: relative;text-align: center;">
+					<img style="width: 160px;height: 160px;" src="tu.png"/>
+					<input type="file" onChange="getUrl(this,'file-url')" name="" id="file" value="" />
+					<p style="word-break: break-word;" id="urlBox"></p>
+				</div>
+			</div>
+	</li>
+	
+</ul>
+    </uwl>
+
+
+
+     </div>
+ <script src="llqrcode.js" type="text/javascript" charset="utf-8"></script>
+		<script src="analyticCode.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			function getUrl(e,param){
+				analyticCode.getUrl(param,e,function(url1,url2){
+					e.nextElementSibling.innerHTML = url1;
+					e.previousElementSibling.src = url2;
+				});
+			}
+		</script>
+</body>
+</html>
